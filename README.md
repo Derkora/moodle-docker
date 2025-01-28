@@ -25,19 +25,6 @@ cp .env.example .env
 ```bash
 docker compose up -d
 ```
-# Setup Mariadb
-- Masuk ke dalam moodle_db 
-```bash
-docker exec -it moodle_db bash
-```
-- Setup User
-```bash
-mysql -u root -p moodle
-CREATE USER 'moodle_user'@'localhost' IDENTIFIED BY 'moodle_password';
-GRANT ALL PRIVILEGES ON moodle.* TO 'moodle_user'@'localhost';
-FLUSH PRIVILEGES;
-exit;
-```
 
 # Setup Web
 masuk ke http://IP-VPS ikuti langkah ini di web

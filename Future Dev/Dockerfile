@@ -32,6 +32,13 @@ RUN chown -R www-data:www-data /var/www/html && \
 # Stage 2: Final stage
 FROM php:8.3-cli-alpine
 
+# Install necessary extensions and dependencies
+RUN apk add --no-cache \
+    libzip-dev libpng-dev icu-dev libxml2-dev freetype-dev \
+    libjpeg-turbo-dev oniguruma-dev curl-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd zip intl mysqli pdo_mysql soap mbstring curl
+
 # Copy only the necessary files from the builder stage
 COPY --from=builder /var/www/html /var/www/html
 COPY --from=builder /usr/local/etc/php/conf.d/moodle.ini /usr/local/etc/php/conf.d/moodle.ini
