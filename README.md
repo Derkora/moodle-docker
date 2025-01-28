@@ -15,7 +15,7 @@ berikan hak pada docker ```usermod -aG docker $USER```
 ## Setup Moodle
 - Clone repo
 ```bash
-git clone https://github.com/ARenewalAgent-ITS/olimpit-moodle
+git clone https://github.com/ARenewalAgent-ITS/moodle-docker
 ```
 - Ubah .env
 ```bash
