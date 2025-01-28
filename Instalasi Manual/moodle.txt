@@ -1,0 +1,79 @@
+Kalau mau install secara manual (tidak pakai docker)
+
+Langkah install moodle 4.4 menggunakan ubuntu 20.04
+dokumentasi terakhir ARA 6.0
+---
+
+sudo apt update && sudo apt upgrade -y
+
+# Apache
+sudo apt install apache2 -y
+sudo apt install software-properties-common -y
+
+# php 8.2
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt update
+sudo apt install php8.2 php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-xml php8.2-mbstring php8.2-curl php8.2-zip php8.2-soap php8.2-intl php8.2-bcmath -y
+php -v
+
+# mariadb 10.6
+sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.mariadb.org/repo/10.6/ubuntu focal main'
+sudo apt install mariadb-server mariadb-client -y
+mariadb --version
+
+# install moodle
+cd /var/www/html
+sudo git clone git://git.moodle.org/moodle.git 
+cd moodle
+git branch -a # jika error masukkan line dibawah
+git config --global --add safe.directory /var/www/html/moodle
+sudo git branch --track MOODLE_404_STABLE origin/MOODLE_404_STABLE # untuk cek versi
+sudo git checkout MOODLE_404_STABLE
+sudo chown -R [username]:www-data /var/www/html/moodle
+sudo chmod 755 /var/www/html/moodle
+
+sudo mkdir /var/www/moodledata
+sudo chown www-data:www-data /var/www/moodledata
+sudo chmod 0770 /var/www/moodledata
+
+# setup php
+nano /etc/php/8.2/apache2/php.ini
+nano /etc/php/8.2/cli/php.ini
+
+# cari dan ubah menjadi
+max_execution_time = 300
+max_input_vars = 5000
+memory_limit = 128M
+post_max_size = 50M
+upload_max_filesize = 50M
+
+# setup mariadb
+sudo mysql -u root -p
+CREATE DATABASE [database_name] CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE USER '[database_user]'@'[database_host]' IDENTIFIED BY '[database_password]';
+GRANT ALL PRIVILEGES ON [database_name].* TO '[database_user]'@'[database_host]';
+FLUSH PRIVILEGES;
+EXIT;
+
+ket 
+database_name dan database user = moodle
+database_host = localhost
+database_password = [bebas]
+
+contoh:
+sudo mysql -u root -p
+CREATE DATABASE moodle CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE USER 'moodle'@'localhost' IDENTIFIED BY '********';
+GRANT ALL PRIVILEGES ON moodle.* TO 'moodle'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+# reset
+sudo systemctl restart apache2
+sudo systemctl restart mariadb
+
+# Observasi ip di internet
+xxx.xxx.xxx.xxx/moodle
+
+# lalu ikuti langkah-langkah dari web
