@@ -1,9 +1,10 @@
 # olimpit-moodle
 ### Recommended Specs
 ```txt
-CPU:  8 Core (Min 2 Core)
-RAM:  16 GB (Min 4 GB)
-Storage: 50GB (Min 30 GB)
+--- Ideal ---
+CPU: 4 Core
+RAM: 8 GB
+Storage: 30 GB
 Versi OS:  Ubuntu 20.04
 ```
 
@@ -16,6 +17,7 @@ berikan hak pada docker ```usermod -aG docker $USER```
 - Clone repo
 ```bash
 git clone https://github.com/ARenewalAgent-ITS/moodle-docker
+cd moodle-docker
 ```
 - Ubah .env
 ```bash
