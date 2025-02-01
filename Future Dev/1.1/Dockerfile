@@ -23,7 +23,11 @@ RUN echo "max_input_vars=5000" >> /usr/local/etc/php/conf.d/moodle.ini && \
     echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/moodle.ini && \
     echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/moodle.ini && \
     echo "opcache.max_accelerated_files=10000" >> /usr/local/etc/php/conf.d/moodle.ini && \
-    echo "opcache.revalidate_freq=60" >> /usr/local/etc/php/conf.d/moodle.ini
+    echo "opcache.revalidate_freq=60" >> /usr/local/etc/php/conf.d/moodle.ini && \
+    echo "opcache.use_cwd=1" >> /usr/local/etc/php/conf.d/moodle.ini && \
+    echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/moodle.ini && \
+    echo "opcache.save_comments=1" >> /usr/local/etc/php/conf.d/moodle.ini && \
+    echo "opcache.enable_file_override=0" >> /usr/local/etc/php/conf.d/moodle.ini 
 
 # Set the correct permissions for Moodle files
 RUN chown -R www-data:www-data /var/www/html && \
@@ -35,22 +39,14 @@ FROM php:8.3-fpm-alpine
 
 # Install Nginx and Supervisor
 RUN apk add --no-cache nginx supervisor \
-    libzip-dev libpng-dev icu-dev libxml2-dev freetype-dev \
+    nano libzip-dev libpng-dev icu-dev libxml2-dev freetype-dev \
     libjpeg-turbo-dev oniguruma-dev curl-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install -j$(nproc) gd zip intl mysqli pdo_mysql soap mbstring curl exif opcache
 
-# Copy PHP configuration from builder stage
 COPY --from=builder /usr/local/etc/php/conf.d/moodle.ini /usr/local/etc/php/conf.d/moodle.ini
-
-# Copy Moodle files from builder stage
 COPY --from=builder /var/www/html /var/www/html
-
-# Configure Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Ensure opcache is enabled
-RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/moodle.ini
 
 # Configure PHP-FPM
 RUN sed -i 's/;listen.owner = www-data/listen.owner = www-data/g' /usr/local/etc/php-fpm.d/www.conf && \
