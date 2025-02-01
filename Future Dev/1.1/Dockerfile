@@ -12,7 +12,7 @@ RUN apk add --no-cache \
     git unzip libzip-dev libpng-dev icu-dev libxml2-dev freetype-dev \
     libjpeg-turbo-dev oniguruma-dev curl-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install -j$(nproc) gd zip intl mysqli pdo_mysql soap mbstring curl exif
+    docker-php-ext-install -j$(nproc) gd zip intl mysqli pdo_mysql soap mbstring curl exif opcache
 
 # Clone Moodle from GitHub
 RUN git clone --branch MOODLE_${MOODLE_VERSION}_STABLE ${MOODLE_GIT_REPO} /var/www/html && \
@@ -34,7 +34,11 @@ RUN chown -R www-data:www-data /var/www/html && \
 FROM php:8.3-fpm-alpine
 
 # Install Nginx and Supervisor
-RUN apk add --no-cache nginx supervisor
+RUN apk add --no-cache nginx supervisor \
+    libzip-dev libpng-dev icu-dev libxml2-dev freetype-dev \
+    libjpeg-turbo-dev oniguruma-dev curl-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd zip intl mysqli pdo_mysql soap mbstring curl exif opcache
 
 # Copy PHP configuration from builder stage
 COPY --from=builder /usr/local/etc/php/conf.d/moodle.ini /usr/local/etc/php/conf.d/moodle.ini
@@ -44,6 +48,9 @@ COPY --from=builder /var/www/html /var/www/html
 
 # Configure Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Ensure opcache is enabled
+RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/moodle.ini
 
 # Configure PHP-FPM
 RUN sed -i 's/;listen.owner = www-data/listen.owner = www-data/g' /usr/local/etc/php-fpm.d/www.conf && \

@@ -1,6 +1,6 @@
 services:
   moodle:
-    image: derkora/moodle:1.1
+    image: derkora/moodle:latest
     container_name: moodle
     ports:
       - "80:80"
