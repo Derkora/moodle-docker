@@ -1,12 +1,12 @@
 services:
   moodle:
-    image: derkora/moodle:latest
+    image: derkora/moodle:1.1
     container_name: moodle
     ports:
       - "80:80"
     volumes:
       - moodledata:/var/www/moodledata
-      - moodle_data:/var/www/html/moodle
+      - moodle_data:/var/www/html
     environment:
       - MOODLE_DATABASE_HOST=moodle_db
       - MOODLE_DATABASE_NAME=moodle
