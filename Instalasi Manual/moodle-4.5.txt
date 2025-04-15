@@ -16,9 +16,9 @@ sudo apt update
 sudo apt install php8.2 php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-xml php8.2-mbstring php8.2-curl php8.2-zip php8.2-soap php8.2-intl php8.2-bcmath -y
 php -v
 
-# mariadb 10.6
+# mariadb 10.11
 sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
-sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.mariadb.org/repo/10.6/ubuntu focal main'
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.mariadb.org/repo/10.11/ubuntu focal main'
 sudo apt install mariadb-server mariadb-client -y
 mariadb --version
 

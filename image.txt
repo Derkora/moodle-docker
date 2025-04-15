@@ -1,0 +1,8 @@
+List image
+
+mariadb 10.6
+- derkora/moodle:4.5-php    
+- derkora/moodle:4.5-nginx  
+
+mariadb 10.11
+- derkora/moodle:5.0-nginx  

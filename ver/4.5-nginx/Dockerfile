@@ -1,4 +1,4 @@
-# Dockerfile ketika membuat image moodle 1.1
+# Dockerfile ketika membuat image moodle:1.1-nginx
 # Use the official PHP 8.3 image as a base
 # Stage 1: Build stage
 FROM php:8.3-cli-alpine AS builder

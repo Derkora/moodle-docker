@@ -1,7 +1,6 @@
-# olimpit-moodle
+# Moodle Docker
 ### Recommended Specs
 ```txt
---- Ideal ---
 CPU: 4 Core
 RAM: 8 GB
 Storage: 30 GB
@@ -16,7 +15,7 @@ berikan hak pada docker ```usermod -aG docker $USER```
 ## Setup Moodle
 - Clone repo
 ```bash
-git clone https://github.com/ARenewalAgent-ITS/moodle-docker
+git clone https://github.com/Derkora/moodle-docker
 cd moodle-docker
 ```
 - Ubah .env
@@ -38,6 +37,6 @@ masuk ke http://IP-VPS ikuti langkah ini di web
     - Database name moodle
     - Database user ${MOODLE_DATABASE_USER}
     - Database Password ${MOODLE_DATABASE_PASSWORD}
-- Installation - Moodle 4.5.1+ (Build: 20250124) "Continue aja"
+- Installation - Moodle ... "Continue aja"
 - Nunggu instalasi (agak lama)
 - Masukin user admin dan moodle sesuai kebutuhan

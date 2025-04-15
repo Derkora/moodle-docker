@@ -14,9 +14,10 @@ services:
       - MOODLE_DATABASE_PASSWORD=${MOODLE_DATABASE_PASSWORD}
     depends_on:
       - moodle_db
+    restart: always 
 
   moodle_db:
-    image: mariadb:10.6
+    image: mariadb:10.11
     container_name: moodle_db
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -25,6 +26,7 @@ services:
       - MYSQL_PASSWORD=${MOODLE_DATABASE_PASSWORD}
     volumes:
       - moodle_db_data:/var/lib/mysql
+    restart: always 
 
 volumes:
   moodle_data:
