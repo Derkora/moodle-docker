@@ -22,6 +22,15 @@ cd moodle-docker
 ```bash
 cp .env.example .env
 ```
+- Buat moodle network
+```bash
+docker network create moodle-network
+```
+- Buat docker image moodle (opsional)
+```bash
+cd ver/5.0-nginx
+docker build -t derkora/moodle:5.0-nginx .
+```
 - Run Docker
 ```bash
 docker compose up -d
